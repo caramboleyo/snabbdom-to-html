@@ -1,13 +1,9 @@
+import escape from '../utils/escape.js';
 
-var forOwn = require('lodash.forown')
-var escape = require('lodash.escape')
+export default function datasetModule(vnode, attributes) {
+	var dataset = vnode.data.dataset || {};
 
-// data.dataset
-
-module.exports = function datasetModule (vnode, attributes) {
-  var dataset = vnode.data.dataset || {}
-
-  forOwn(dataset, function (value, key) {
-    attributes.set(`data-${key}`, escape(value))
-  })
+	for (const [key, value] of Object.entries(dataset)) {
+		attributes.set(`data-${key}`, escape(value));
+	}
 }

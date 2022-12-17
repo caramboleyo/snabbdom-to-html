@@ -2,25 +2,15 @@
 
 Render [Snabbdom](https://github.com/paldepind/snabbdom) Vnode’s to HTML strings
 
-## Install
-
-With [`npm`](https://www.npmjs.com/) do:
-
-```bash
-npm install snabbdom-to-html
-```
-
 ## Usage
 
-```js
-var h = require('snabbdom/h')
-var toHTML = require('snabbdom-to-html')
+```javascript
+import { h } from 'https://esm.sh/snabbdom';
+import toHTML from './index.js';
 
-var output = toHTML(
-  h('div', { style: { color: 'red' } }, 'The quick brown fox jumps')
-)
+var output = toHTML(h('div', { style: { color: 'red' } }, 'The quick brown fox jumps'));
 
-console.log(output)
+console.log(output);
 // => <div style="color: red">The quick brown fox jumps</div>
 ```
 
@@ -29,22 +19,18 @@ console.log(output)
 This library is built replicating the modular approach used in Snabbdom. So you can do the following if you need to implement any custom functionality.
 
 ```js
-var h = require('snabbdom/h')
+import { h } from 'https://esm.sh/snabbdom';
+import init from './init.js';
+import class_ from './modules/class.js';
+import props from './modules/props.js';
+import attributes from './modules/attributes.js';
+import style from './modules/style.js';
 
-var init = require('snabbdom-to-html/init')
-var modules = require('snabbdom-to-html/modules')
-var toHTML = init([
-  modules.class,
-  modules.props,
-  modules.attributes,
-  modules.style
-])
+const toHTML = init([class_, props, attributes, style]);
 
-var output = toHTML(
-  h('div', { style: { color: 'lime' } }, 'over the lazy fox')
-)
+var output = toHTML(h('div', { style: { color: 'lime' } }, 'over the lazy fox'));
 
-console.log(output)
+console.log(output);
 // => <div style="color: lime">over the lazy fox</div>
 ```
 
@@ -54,14 +40,11 @@ You can do `attributes.set(key, value)`, `attributes.get(key)` and `attributes.d
 
 The built-in modules are available from `snabbdom-to-html/modules`, and these are:
 
-- `attributes`
-- `class`
-- `props`
-- `style`
-
-## Support
-
-This is tested against Node.js 4.x and up. If you need to run this in the browser you might need to include something like [`es6-shim`](https://github.com/paulmillr/es6-shim) to ensure `Map` support. 
+-   `attributes.js`
+-   `class.js`
+-   `dataset.js`
+-   `props.js`
+-   `style.js`
 
 ## License
 

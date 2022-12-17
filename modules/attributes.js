@@ -1,13 +1,9 @@
+import escape from '../utils/escape.js';
 
-var forOwn = require('lodash.forown')
-var escape = require('lodash.escape')
+export default function attrsModule(vnode, attributes) {
+	var attrs = vnode.data.attrs || {};
 
-// data.attrs
-
-module.exports = function attrsModule (vnode, attributes) {
-  var attrs = vnode.data.attrs || {}
-
-  forOwn(attrs, function (value, key) {
-    attributes.set(key, escape(value))
-  })
+	for (const [key, value] of Object.entries(attrs)) {
+		attributes.set(key, escape(value));
+	}
 }
