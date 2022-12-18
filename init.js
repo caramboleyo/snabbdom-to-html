@@ -1,6 +1,10 @@
 import escape from './utils/escape.js';
 import parseSelector from './utils/parse-selector.js';
-import { VOID as VOID_ELEMENTS, CONTAINER as CONTAINER_ELEMENTS } from './elements.js';
+import {
+	UNESCAPED as UNESCAPED_ELEMENTS,
+	VOID as VOID_ELEMENTS,
+	CONTAINER as CONTAINER_ELEMENTS,
+} from './elements.js';
 
 export default function init(modules) {
 	function parse(vnode, node) {
@@ -23,13 +27,13 @@ export default function init(modules) {
 		return result.join(' ');
 	}
 
-	return function renderToString(vnode) {
+	return function renderToString(vnode, escapeText = true) {
 		if (typeof vnode === 'undefined' || vnode === null) {
 			return '';
 		}
 
 		if (!vnode.sel && typeof vnode.text === 'string') {
-			return escape(vnode.text);
+			return escapeText ? escape(vnode.text) : vnode.text;
 		}
 
 		vnode.data = vnode.data || {};
@@ -71,10 +75,12 @@ export default function init(modules) {
 			if (vnode.data.props && vnode.data.props.innerHTML) {
 				tag.push(vnode.data.props.innerHTML);
 			} else if (vnode.text) {
-				tag.push(escape(vnode.text));
+				tag.push(escapeText ? escape(vnode.text) : vnode.text);
 			} else if (vnode.children) {
 				vnode.children.forEach(function (child) {
-					tag.push(renderToString(child));
+					tag.push(
+						renderToString(child, UNESCAPED_ELEMENTS[tagName] === true ? false : true),
+					);
 				});
 			}
 			tag.push('</' + tagName + '>');

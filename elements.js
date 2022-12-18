@@ -45,3 +45,7 @@ export const VOID = {
 	track: true,
 	wbr: true,
 };
+
+export const UNESCAPED = {
+	script: true,
+};
